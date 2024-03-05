@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<definitions id="Definition"
+             targetNamespace="http://www.jboss.org/drools"
+             typeLanguage="http://www.java.com/javaTypes"
+             expressionLanguage="http://www.mvel.org/2.0"
+             xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd"
+             xmlns:g="http://www.jboss.org/drools/flow/gpd"
+             xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+             xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+             xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+             xmlns:tns="http://www.jboss.org/drools">
+
+  <itemDefinition id="_var_nombre" structureRef="String" />
+  <itemDefinition id="_var_apellido" structureRef="String" />
+  <itemDefinition id="_var_historial_medico" structureRef="String" />
+
+  <process processType="Private" isExecutable="true" id="com.sample.bpmn" name="Sample Process" tns:packageName="defaultPackage" tns:version="1" >
+
+    <!-- process variables -->
+    <property id="var_nombre" itemSubjectRef="null"/>
+    <property id="var_apellido" itemSubjectRef="null"/>
+    <property id="var_historial_medico" itemSubjectRef="null"/>
+
+    <!-- nodes -->
+    <startEvent id="_1"  isInterrupting="true"/>
+    <endEvent id="_jbpm-unique-0" name="End" >
+        <terminateEventDefinition />
+    </endEvent>
+    <userTask id="_jbpm-unique-1" name="Registro Información Personal" >
+      <ioSpecification>
+        <dataInput id="_jbpm-unique-1_in_apellidoInput" name="in_apellido" />
+        <dataInput id="_jbpm-unique-1_in_nombreInput" name="in_nombre" />
+        <dataInput id="_jbpm-unique-1_TaskNameInput" name="TaskName" />
+        <dataOutput id="_jbpm-unique-1_out_nombreOutput" name="out_nombre" />
+        <dataOutput id="_jbpm-unique-1_out_apellidoOutput" name="out_apellido" />
+        <inputSet>
+          <dataInputRefs>_jbpm-unique-1_in_apellidoInput</dataInputRefs>
+          <dataInputRefs>_jbpm-unique-1_in_nombreInput</dataInputRefs>
+          <dataInputRefs>_jbpm-unique-1_TaskNameInput</dataInputRefs>
+        </inputSet>
+        <outputSet>
+          <dataOutputRefs>_jbpm-unique-1_out_nombreOutput</dataOutputRefs>
+          <dataOutputRefs>_jbpm-unique-1_out_apellidoOutput</dataOutputRefs>
+        </outputSet>
+      </ioSpecification>
+      <dataInputAssociation>
+        <sourceRef>var_apellido</sourceRef>
+        <targetRef>_jbpm-unique-1_in_apellidoInput</targetRef>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <sourceRef>var_nombre</sourceRef>
+        <targetRef>_jbpm-unique-1_in_nombreInput</targetRef>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_jbpm-unique-1_TaskNameInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression">Registro_Informacion_Personal</from>
+          <to xsi:type="tFormalExpression">_jbpm-unique-1_TaskNameInput</to>
+        </assignment>
+      </dataInputAssociation>
+      <dataOutputAssociation>
+        <sourceRef>_jbpm-unique-1_out_nombreOutput</sourceRef>
+        <targetRef>var_nombre</targetRef>
+      </dataOutputAssociation>
+      <dataOutputAssociation>
+        <sourceRef>_jbpm-unique-1_out_apellidoOutput</sourceRef>
+        <targetRef>var_apellido</targetRef>
+      </dataOutputAssociation>
+    </userTask>
+    <userTask id="_jbpm-unique-2" name="Registro Información Médica" >
+      <ioSpecification>
+        <dataInput id="_jbpm-unique-2_in_historial_medicoInput" name="in_historial_medico" />
+        <dataInput id="_jbpm-unique-2_TaskNameInput" name="TaskName" />
+        <inputSet>
+          <dataInputRefs>_jbpm-unique-2_in_historial_medicoInput</dataInputRefs>
+          <dataInputRefs>_jbpm-unique-2_TaskNameInput</dataInputRefs>
+        </inputSet>
+        <outputSet>
+        </outputSet>
+      </ioSpecification>
+      <dataInputAssociation>
+        <sourceRef>var_historial_medico</sourceRef>
+        <targetRef>_jbpm-unique-2_in_historial_medicoInput</targetRef>
+      </dataInputAssociation>
+      <dataInputAssociation>
+        <targetRef>_jbpm-unique-2_TaskNameInput</targetRef>
+        <assignment>
+          <from xsi:type="tFormalExpression">Registro_Informacion_Medica</from>
+          <to xsi:type="tFormalExpression">_jbpm-unique-2_TaskNameInput</to>
+        </assignment>
+      </dataInputAssociation>
+    </userTask>
+
+    <!-- connections -->
+    <sequenceFlow id="_jbpm-unique-2-_jbpm-unique-0" sourceRef="_jbpm-unique-2" targetRef="_jbpm-unique-0" />
+    <sequenceFlow id="_1-_jbpm-unique-1" sourceRef="_1" targetRef="_jbpm-unique-1" />
+    <sequenceFlow id="_jbpm-unique-1-_jbpm-unique-2" sourceRef="_jbpm-unique-1" targetRef="_jbpm-unique-2" />
+
+  </process>
+
+  <bpmndi:BPMNDiagram>
+    <bpmndi:BPMNPlane bpmnElement="com.sample.bpmn" >
+      <bpmndi:BPMNShape bpmnElement="_1" >
+        <dc:Bounds x="16" y="34" width="48" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_jbpm-unique-0" >
+        <dc:Bounds x="669" y="34" width="48" height="48" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_jbpm-unique-1" >
+        <dc:Bounds x="96" y="16" width="265" height="85" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="_jbpm-unique-2" >
+        <dc:Bounds x="393" y="16" width="244" height="85" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="_jbpm-unique-2-_jbpm-unique-0" >
+        <di:waypoint x="515" y="58" />
+        <di:waypoint x="693" y="58" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_1-_jbpm-unique-1" >
+        <di:waypoint x="40" y="58" />
+        <di:waypoint x="228" y="58" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="_jbpm-unique-1-_jbpm-unique-2" >
+        <di:waypoint x="228" y="58" />
+        <di:waypoint x="515" y="58" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+
+</definitions>
